@@ -1,17 +1,23 @@
 'use strict';
-import Koa from 'koa'
 import path from 'path'
+
+import Koa from 'koa'
 import router from 'koa-router'
 import serve from 'koa-static'
+import bodyParser from 'koa-body'
+
 import r from 'rethinkdb'
 import http from 'http'
 import SocketIO from 'socket.io'
 import webpack from 'webpack'
 
-import * as eventService from './server/api/api.js'
+import * as eventService from './server/api/service/events'
+import * as api from './server/api/api'
 import config from './webpack.config'
 
 const app = Koa();
+const myRouter = router();
+const myBodyParser = bodyParser();
 const compiler = webpack(config);
 const httpServer = http.Server(app.callback());
 const port = process.env.PORT || 8000;
@@ -27,12 +33,18 @@ app.use(require('koa-webpack-dev-middleware')(compiler, {
 //spit out new builds
 app.use(require('koa-webpack-hot-middleware')(compiler));
 
-app.use(serve(path.resolve('client')));
+myRouter
+    .get('/api/suggestions/:searchterm', api.getSuggestions)
+
+app
+    .use(serve(path.resolve('client')))
+    .use(myRouter.routes())
+    .use(myRouter.allowedMethods());
 
 httpServer.listen(port, () => {
     console.log('App is listening on port', port);
 });
 
 //sets up live updating
-eventService.liveUpdates(io);
+//eventService.liveUpdates(io);
 

@@ -1,22 +1,12 @@
-import r from 'rethinkdb'
-import config from '../config.json'
+import * as eventService from './service/events'
+import * as factualService from './service/factual'
 
-function connect() {
-    return r.connect(config);
-}
-
-export function liveUpdates(io) {
-    console.log('Setting up live updates...');
-    connect()
-    .then((conn) => {
-        r
-        .table('authors')
-        .changes().run(conn, (err, cursor) => {
-            console.log('Listening for changes...')
-            cursor.each((err, change) => {
-                console.log('Change detected', change)
-                io.emit('event-change', change)
-            })
-        })
-    })
+export function *getSuggestions() {
+    let searchTerm = this.params.searchterm;
+    var startTime = new Date();
+    let suggestions = yield factualService.getSuggestions(searchTerm);
+    var endTime = new Date();
+    console.log(endTime - startTime);
+    this.status = 200;
+    this.body = suggestions;
 }

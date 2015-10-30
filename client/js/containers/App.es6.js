@@ -3,30 +3,41 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as actions from 'flux/actions/actions'
-import Sample from 'components/Sample'
+import SearchBar from 'components/SearchBar/SearchBar'
 
-class App extends Component {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class App extends Component {
     render() {
-        const { dispatch, ...other } = this.props;
+        const { actions, ...other } = this.props;
 
-        const boundActions = bindActionCreators(actions, dispatch);
+        console.log(other);
 
         return (
             <div style={STYLES}>
-                <Sample />
+                <SearchBar {...other} actions={actions}/>
             </div>
         )
     }
 }
 
-App.propTypes = {};
-
 function mapStateToProps(state) {
     return {
-        blah : state.get('blah')
+        searchSuggestions : state.get('searchSuggestions').toJS(),
+        searchTerm: state.get('searchTerm')
     };
 }
 
-const STYLES = {};
+function mapDispatchToProps(dispatch) {
+    return {
+        actions : bindActionCreators(actions, dispatch)
+    }
+}
 
-export default connect(mapStateToProps)(App);
+App.propTypes = {
+    searchSuggestions : PropTypes.arrayOf(PropTypes.object),
+    searchTerm: PropTypes.string
+};
+
+const STYLES = {
+    padding: '3rem'
+};

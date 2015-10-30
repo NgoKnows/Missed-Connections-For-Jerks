@@ -19,9 +19,9 @@ const store = finalCreateStore(Reducer);
 export default class Root extends Component {
     render() {
         return (
-                <Provider store={store}>
-                    <App />
-                </Provider>
+            <Provider store={store}>
+                <App />
+            </Provider>
         )
     }
 }

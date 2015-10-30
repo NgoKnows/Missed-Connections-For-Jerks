@@ -1,17 +1,25 @@
-import { ADD_TODO } from '../constants/constants'
+import { SET_SEARCH_TERM, SET_SUGGESTIONS } from '../constants/constants'
 import Immutable from 'immutable'
 
 //beginning state of app
-let initialState = Immutable.Map({
-    todos    : Immutable.List()
+let testState = Immutable.Map({
+    searchSuggestions : Immutable.List(),
+    searchTerm : ''
 });
 
-export default function app(state = initialState, action) {
+//let initialState = Immutable.Map({
+//    suggestions : Immutable.List(),
+//    markers : Immutable.Set(),
+//
+//})
+
+export default function app(state = testState, action) {
     switch(action.type) {
-        case ADD_TODO:
-            return state.update('todos', (val) => {
-                return val.push(action.todo);
-            });
+        case SET_SEARCH_TERM:
+            return state.set('searchTerm', action.term);
+
+        case SET_SUGGESTIONS:
+            return state.set('searchSuggestions', Immutable.List(action.suggestions));
 
         default:
             return state;

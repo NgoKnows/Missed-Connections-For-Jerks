@@ -1,1 +1,5 @@
-const ADD_TODO = 'ADD_TODO';
+export const ADD_MARKER = 'ADD_MARKER';
+export const REMOVE_MARKER = 'REMOVE_MARKER'
+export const SET_MARKERS = 'SET_MARKERS';
+export const SET_SUGGESTIONS = 'SET_SUGGESTIONS';
+export const SET_SEARCH_TERM = 'SET_SEARCH_TERM'
