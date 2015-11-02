@@ -1,5 +1,5 @@
 .idea/
 node_modules/
-server/secret.js
+*secret*
 .DS_Store
 build/

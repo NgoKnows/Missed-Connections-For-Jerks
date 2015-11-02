@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import * as actions from 'flux/actions/actions'
 import SearchBar from 'components/SearchBar/SearchBar'
+import Map from 'components/Map/MyMap'
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class App extends Component {
@@ -15,6 +16,7 @@ export default class App extends Component {
         return (
             <div style={STYLES}>
                 <SearchBar {...other} actions={actions}/>
+                <Map {...other}/>
             </div>
         )
     }
@@ -22,8 +24,11 @@ export default class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        searchSuggestions : state.get('searchSuggestions').toJS(),
-        searchTerm: state.get('searchTerm')
+        center : state.get('center').toJS(),
+        events : state.get('events').toJS(),
+        suggestions : state.get('suggestions').toJS(),
+        searchTerm: state.get('searchTerm'),
+        zoom: state.get('zoom')
     };
 }
 
@@ -39,5 +44,4 @@ App.propTypes = {
 };
 
 const STYLES = {
-    padding: '3rem'
 };

@@ -38,12 +38,11 @@ SearchInput.defaultProps = {
 };
 
 const STYLES = {
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'rgba(125, 145, 145, 0.85)',
     border: 0,
     borderRadius: '5px',
     boxSizing: 'border-box',
     fontSize: '1.5rem',
-    opacity: 0.5,
     outline: 0,
     padding: '0.5rem 2.5rem',
     width: 'inherit',

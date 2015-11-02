@@ -4,10 +4,10 @@ import Radium from 'radium'
 @Radium
 export default class AutoCompleteRow extends Component {
     render() {
-        const { suggestion } = this.props;
+        const { suggestion, handleClick } = this.props;
 
         return (
-            <li style={STYLES.row}>
+            <li style={STYLES.row} onClick={() => handleClick(suggestion.latitude, suggestion.longitude)}>
                 <div style={STYLES.result}>{suggestion.name} </div>
                 <div style={[STYLES.result, STYLES.address]}>{suggestion.address || suggestion.locality }</div>
             </li>
@@ -25,11 +25,11 @@ const STYLES = {
         textOverflow: 'ellipsis'
     },
     row: {
-        padding: '.75rem 0.75rem',
+        padding: '.5rem 0.75rem',
         whiteSpace: 'nowrap',
         ':hover': {
             cursor: 'pointer',
-            opacity: 0.25
+            opacity: 0.55
         }
     },
     address: {

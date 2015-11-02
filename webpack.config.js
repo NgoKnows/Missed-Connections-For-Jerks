@@ -13,11 +13,11 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx', '.es6.js'],
         alias : {
-            react: path.join(__dirname, 'node_modules', 'react'),
             classes: path.join(ROOT_DIR, 'client', 'js', 'classes'),
             components: path.join(ROOT_DIR, 'client', 'js', 'components'),
             flux: path.join(ROOT_DIR, 'client', 'js', 'redux'),
-            js: path.join(ROOT_DIR, 'client', 'js')
+            js: path.join(ROOT_DIR, 'client', 'js'),
+            react: path.join(ROOT_DIR, 'node_modules', 'react')
         }
     },
 

@@ -10,8 +10,8 @@ import Reducer from 'flux/reducers/reducer'
 import App from './App'
 
 const finalCreateStore = compose(
-    applyMiddleware(thunk)
-    //devTools()
+    applyMiddleware(thunk),
+    devTools()
 )(createStore);
 
 const store = finalCreateStore(Reducer);
@@ -19,9 +19,14 @@ const store = finalCreateStore(Reducer);
 export default class Root extends Component {
     render() {
         return (
-            <Provider store={store}>
-                <App />
-            </Provider>
+            <div>
+                <Provider store={store}>
+                    <App />
+                </Provider>
+                <DebugPanel top right bottom>
+                    <DevTools store={store} monitor={LogMonitor} />
+                </DebugPanel>
+            </div>
         )
     }
 }

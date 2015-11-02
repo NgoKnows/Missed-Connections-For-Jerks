@@ -46,7 +46,7 @@ var Animations = {
 @Radium
 export default class AutoComplete extends Component {
     render() {
-        const { searchSuggestions } = this.props;
+        const { suggestions } = this.props;
 
         var enterAnimation = {
             animation: Animations.In,
@@ -68,7 +68,7 @@ export default class AutoComplete extends Component {
             backwards: true,
         };
 
-        let SearchingText = searchSuggestions.length ? null :
+        let SearchingText = suggestions.length ? null :
             <li key={0} style={STYLES.searching}>{'Searching...'}</li>
 
         return (
@@ -84,12 +84,13 @@ export default class AutoComplete extends Component {
     }
 
     _getRows() {
-        const { searchSuggestions } = this.props;
+        const { suggestions, handleClick } = this.props;
 
-        return searchSuggestions.map((suggestion) => {
+        return suggestions.map((suggestion) => {
             return (
                 <AutoCompleteRow
                     key={suggestion.factual_id}
+                    handleClick={handleClick}
                     suggestion={suggestion}
                 />
             )
@@ -99,7 +100,8 @@ export default class AutoComplete extends Component {
 
 const STYLES = {
     list: {
-        backgroundColor: 'lightgray',
+        backgroundColor: 'rgba(236, 240, 241, 0.75)',
+        borderRadius: '0 0 5px 5px',
         boxSizing: 'border-box',
         fontSize: '1.25rem',
         listStyleType: 'none',
@@ -117,7 +119,7 @@ const STYLES = {
 }
 
 AutoComplete.propTypes = {
-    searchSuggestions: PropTypes.arrayOf(PropTypes.object).isRequired
+    suggestions: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 AutoComplete.defaultProps = {};

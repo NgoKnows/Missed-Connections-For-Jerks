@@ -12,7 +12,7 @@ export default class SearchBar extends Component {
     }
 
     render() {
-        const { actions, searchSuggestions, searchTerm } = this.props;
+        const { actions, suggestions, searchTerm } = this.props;
         let { focus } = this.state;
 
         return (
@@ -23,9 +23,12 @@ export default class SearchBar extends Component {
                         handleFocus={() => this.setState({focus: true})}
                         handleBlur={() => this.setState({focus: true})}
                         handleChange={(event) => actions.fetchSuggestions(event.target.value)}
+                        placeholderText="Where was this asshole?"
                         searchTerm={searchTerm}
                     />
-                    {focus ? <AutoComplete searchSuggestions={searchSuggestions}/> : null}
+                    {focus ? <AutoComplete handleClick={(lat, long) => actions.goToPlace(lat, long)}
+                                           suggestions={suggestions}
+                    /> : null}
                 </div>
             </div>
         );
@@ -33,7 +36,7 @@ export default class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-    searchSuggestions: PropTypes.arrayOf(PropTypes.shape({
+    suggestions: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
         address: PropTypes.string,
     })).isRequired
@@ -43,7 +46,12 @@ SearchBar.defaultProps = {};
 
 const STYLES = {
     container: {
-        display: 'inline-block'
+        display: 'inline-block',
+        position: 'absolute',
+        left: '50%',
+        marginLeft: '-15rem',
+        marginTop: '1rem',
+        zIndex: 999
     },
     wrapper: {
         position: 'relative',
