@@ -25,17 +25,17 @@ export default class Feed extends Component {
 
 const STYLES = {
     container: {
-        padding: '1rem',
-        width: '16rem',
-        height: '100%',
-        backgroundColor: 'rgba(236, 240, 241, 0.75)'
+        backgroundColor : 'rgba(236, 240, 241, 0.75)',
+        height          : '100%',
+        padding         : '1rem',
+        width           : '16rem'
     },
 
     header: {
-        color: 'rgb(178,89,79)',
-        margin: '0.2rem 0 0.75rem 0'
+        color  : 'rgb(178,89,79)',
+        margin : '0.2rem 0 0.75rem 0'
     }
-}
+};
 
 Feed.propTypes = {
     events: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({

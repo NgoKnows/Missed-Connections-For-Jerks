@@ -50,6 +50,7 @@ export function setZoom(zoom) {
 }
 
 export function goToPlace(place){
+    console.log(place);
     return (dispatch, getState) => {
         const { latitude, longitude, name, factual_id, region } = place;
         dispatch(setCenter(latitude, longitude));
@@ -68,7 +69,7 @@ export function goToPlace(place){
         };
 
         request
-            .post('/api/events')
+            .post(`/api/events/${place.factual_id}`)
             .send(new Event(event).toJS())
             .then((res) => console.log(res))
         //dispatch(addEvent({id: factual_id, place_name: name, title: 'New event!', latitude, longitude, state: region}))

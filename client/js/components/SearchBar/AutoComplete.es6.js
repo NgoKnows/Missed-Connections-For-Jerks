@@ -1,10 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Radium from 'radium'
 
-require('velocity-animate');
-require('velocity-animate/velocity.ui');
-
+import 'velocity-animate'
+import 'velocity-animate/velocity.ui'
 import { VelocityTransitionGroup, velocityHelpers } from 'velocity-react'
 
 import AutoCompleteRow from 'components/SearchBar/AutoCompleteRow'
@@ -91,7 +90,7 @@ export default class AutoComplete extends Component {
             return (
                 <AutoCompleteRow
                     key={suggestion.get('factual_id')}
-                    handleClick={handleClick}
+                    handleClick={handleClick.bind(this, suggestion)}
                     suggestion={suggestion}
                 />
             )
@@ -131,5 +130,3 @@ AutoComplete.propTypes = {
         region     : PropTypes.string
     })).isRequired
 };
-
-AutoComplete.defaultProps = {};

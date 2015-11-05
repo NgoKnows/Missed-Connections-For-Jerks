@@ -3,8 +3,6 @@ import * as eventService from './service/events'
 export function *getEvents() {
     let events = yield eventService.getEvents();
 
-    console.log(events);
-
     this.status = 200;
     this.body = {events};
 }

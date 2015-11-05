@@ -9,9 +9,9 @@ export default class AutoCompleteRow extends Component {
         const { name, address, locality } = suggestion;
 
         return (
-            <li style={STYLES.row} onClick={() => handleClick(suggestion)}>
+            <li style={STYLES.row} onClick={handleClick}>
                 <div style={STYLES.result}>{name} </div>
-                <div style={[STYLES.result, STYLES.address]}>{address || locality}</div>
+                <div style={[STYLES.result, STYLES.address]}>{ address || locality }</div>
             </li>
         );
     }

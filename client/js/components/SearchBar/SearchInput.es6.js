@@ -38,18 +38,16 @@ SearchInput.defaultProps = {
 };
 
 const STYLES = {
-    backgroundColor: 'rgba(125, 145, 145, 0.85)',
-    border: 0,
-    borderRadius: '5px',
-    boxSizing: 'border-box',
-    fontSize: '1.5rem',
-    outline: 0,
-    padding: '0.5rem 2.5rem',
-    width: 'inherit',
-    ':focus': {
-        outline: 'none',
-        borderRadius: '5px 5px 0 0'
+    backgroundColor : 'rgba(125, 145, 145, 0.85)',
+    border          : 0,
+    borderRadius    : '5px',
+    boxSizing       : 'border-box',
+    fontSize        : '1.5rem',
+    outline         : 0,
+    padding         : '0.5rem 2.5rem',
+    width           : 'inherit',
+    ':focus' : {
+        outline      : 'none',
+        borderRadius : '5px 5px 0 0'
     }
 };
-
-

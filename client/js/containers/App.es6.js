@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import Immutable from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -29,11 +29,11 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        center : state.get('center'),
-        events : state.get('events'),
-        searchTerm: state.get('searchTerm'),
+        center      : state.get('center'),
+        events      : state.get('events'),
+        searchTerm  : state.get('searchTerm'),
         suggestions : state.get('suggestions'),
-        zoom: state.get('zoom')
+        zoom        : state.get('zoom')
     };
 };
 
@@ -44,8 +44,8 @@ function mapDispatchToProps(dispatch) {
 };
 
 App.propTypes = {
-    center: ImmutablePropTypes.listOf(PropTypes.number).isRequired,
-    events: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+    center : ImmutablePropTypes.listOf(PropTypes.number).isRequired,
+    events : ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
         address    : PropTypes.string,
         content    : PropTypes.string,
         factual_id : PropTypes.string,
@@ -57,7 +57,7 @@ App.propTypes = {
         title      : PropTypes.string,
         user       : PropTypes.string
     })).isRequired,
-    suggestions: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+    suggestions : ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
         address    : PropTypes.string,
         factual_id : PropTypes.string,
         latitude   : PropTypes.number,
@@ -67,8 +67,8 @@ App.propTypes = {
         postcode   : PropTypes.string,
         region     : PropTypes.string
     })).isRequired,
-    searchTerm: PropTypes.string.isRequired,
-    zoom: PropTypes.number.isRequired
+    searchTerm : PropTypes.string.isRequired,
+    zoom       : PropTypes.number.isRequired
 };
 
 const STYLES = {};

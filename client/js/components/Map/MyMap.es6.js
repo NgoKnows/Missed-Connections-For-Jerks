@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import Radium from 'radium'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import '../../bouncemaker.es6.js'
 
 import { MAPBOX_KEY } from '../../secret'
-
-require('../../bouncemaker.es6.js')
-
 
 export default class MyMap extends Component {
     render() {
@@ -34,8 +33,7 @@ export default class MyMap extends Component {
                 <Marker position={[event.latitude, event.longitude]}
                         bounceOnAdd={true}
                         bounceOnAddOptions= {{duration: 500, height: 100}}
-                        bounceOnAddCallback=""
-                        key={index}>
+                        key={event.id}>
                     <Popup>
                         <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
                     </Popup>
@@ -45,5 +43,20 @@ export default class MyMap extends Component {
     }
 }
 
-Map.propTypes = {};
-Map.defaultProps = {};
+MyMap.propTypes = {
+    center : ImmutablePropTypes.listOf(PropTypes.number).isRequired,
+    events : ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+        address    : PropTypes.string,
+        content    : PropTypes.string,
+        factual_id : PropTypes.string,
+        id         : PropTypes.string,
+        latitude   : PropTypes.number,
+        locality   : PropTypes.string,
+        longitude  : PropTypes.number,
+        place_name : PropTypes.string,
+        title      : PropTypes.string,
+        user       : PropTypes.string,
+        blah       : PropTypes.string
+    })).isRequired,
+    zoom : PropTypes.number.isRequired
+};

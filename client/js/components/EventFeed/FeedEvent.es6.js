@@ -17,21 +17,21 @@ export default class FeedEvent extends Component {
 }
 
 const STYLES = {
-    event: {
-        marginBottom: '1rem',
+    event : {
+        marginBottom : '1rem',
         ':hover': {
-            cursor: 'pointer',
-            opacity: 0.55,
-            textDecoration: 'underline'
+            cursor         : 'pointer',
+            opacity        : 0.55,
+            textDecoration : 'underline'
         }
     },
     title: {
-        margin: 0
+        margin : 0
     },
 
     place: {
-        color: 'grey',
-        margin: 0
+        color  : 'grey',
+        margin : 0
     }
 }
 

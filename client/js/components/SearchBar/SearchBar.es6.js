@@ -23,14 +23,15 @@ export default class SearchBar extends Component {
                     <SearchImage />
                     <SearchInput
                         handleBlur={() => this.setState({focus: true})}
-                        handleChange={event => actions.fetchSuggestions(event.target.value)}
+                        handleChange={(event) => actions.fetchSuggestions(event.target.value)}
                         handleFocus={() => this.setState({focus: true})}
                         placeholderText="Where was this asshole?"
                         searchTerm={searchTerm}
                     />
                     {focus ?
-                        <AutoComplete handleClick={(place) => actions.goToPlace(place)}
-                                      suggestions={suggestions}/> : null}
+                        <AutoComplete handleClick={actions.goToPlace}
+                                      suggestions={suggestions}
+                        /> : null}
                 </div>
             </div>
         );
@@ -38,7 +39,7 @@ export default class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-    searchTerm: PropTypes.string,
+    searchTerm: PropTypes.string.isRequired,
     suggestions: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
         address    : PropTypes.string,
         factual_id : PropTypes.string,
@@ -51,21 +52,18 @@ SearchBar.propTypes = {
     })).isRequired
 };
 
-SearchBar.defaultProps = {
-    searchTerm: ''
-};
-
 const STYLES = {
-    container: {
-        display: 'inline-block',
-        position: 'absolute',
-        left: '50%',
-        marginLeft: '-15rem',
-        marginTop: '1rem',
-        zIndex: 999
+    container : {
+        display    : 'inline-block',
+        left       : '50%',
+        marginLeft : '-15rem',
+        marginTop  : '1rem',
+        position   : 'absolute',
+        zIndex     : 999
     },
-    wrapper: {
-        position: 'relative',
-        width: '30rem'
+
+    wrapper : {
+        position : 'relative',
+        width    : '30rem'
     }
 }

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import Immutable from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Radium from 'radium'
 
@@ -17,10 +16,10 @@ export default class EventFeed extends Component {
 }
 
 const STYLES = {
-    position: 'absolute',
-    zIndex: 999,
-    right: 0,
-    height: '100%'
+    height   : '100%',
+    position : 'absolute',
+    right    : 0,
+    zIndex   : 999
 };
 
 EventFeed.propTypes = {

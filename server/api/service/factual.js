@@ -11,8 +11,8 @@ Promise.promisifyAll(redis.Multi.prototype);
 let factual = new Factual(FACTUAL_KEY, FACTUAL_SECRET_KEY);
 let client = redis.createClient();
 
-export function *getSuggestions(searchTerm) {
-    let queryKey = `/t/places-us query:${searchTerm.trim()}`;
+export function *getSuggestions(searchTerm, locality = '') {
+    let queryKey = `api:factual:places-us/{q:${searchTerm.trim().toLowerCase()},l:${locality}`;
     let found =  yield client.existsAsync(queryKey);
 
     if (found) {
@@ -20,25 +20,32 @@ export function *getSuggestions(searchTerm) {
         return JSON.parse(value);
     } else {
         let apiResponse = yield factual.getAsync('/t/places-us',
-            {q: searchTerm.trim(), limit: 5, sort: 'placerank:desc'})
+            {q: searchTerm.trim().toLowerCase(), select:
+                'address, factual_id, latitude, locality, longitude, name, postcode, region',
+                limit: 5, sort: 'placerank:desc'
+            })
+        apiResponse = apiResponse[0].data
 
-        yield client.setAsync(queryKey, JSON.stringify(apiResponse[0].data));
-        return apiResponse[0].data;
+        yield client.setAsync(queryKey, JSON.stringify(apiResponse));
+        return apiResponse;
     }
 }
 
 //still untested
 export function *getPlaceInfo(id) {
-    let queryKey = `/t/places-us query:${searchTerm.trim()}`;
+    let queryKey = `api:factual:places-us#${id}`;
     let found = yield client.existsAsync(queryKey);
 
     if (found) {
         let value = yield client.getAsync(queryKey);
         return JSON.parse(value);
     } else {
-        let apiResponse = yield factual.getAsync(`/t/places-us/${id}`)
+        let apiResponse = yield factual.getAsync(`/t/places-us/${id}`, {select:
+            'address, factual_id, latitude, locality, longitude, name, postcode, region'
+        })
+        apiResponse = apiResponse[0].data
 
-        yield client.setAsync(queryKey, JSON.stringify(apiResponse[0].data));
-        return apiResponse[0].data;
+        yield client.setAsync(queryKey, JSON.stringify(apiResponse));
+        return apiResponse;
     }
 }
