@@ -12,28 +12,33 @@ let factual = new Factual(FACTUAL_KEY, FACTUAL_SECRET_KEY);
 let client = redis.createClient();
 
 export function *getSuggestions(searchTerm) {
-    let queryKey = `/t/places-us query:${searchTerm.trim}`;
+    let queryKey = `/t/places-us query:${searchTerm.trim()}`;
+    let found =  yield client.existsAsync(queryKey);
 
-    return yield client.existsAsync(queryKey)
-    .then(found => {
-        if (found) {
-            return client.getAsync(queryKey)
-            .then(res => {
-                return JSON.parse(res)
-            });
-        } else {
-            return factual.getAsync('/t/places-us', {q: searchTerm.trim(), limit: 5, sort: 'placerank:desc'})
-            .then(res => {
-                client.setAsync(`/t/places-us query:${searchTerm.trim}`, JSON.stringify(res[0].data))
-                return res[0].data
-            })
-            .catch((error) => console.log(error))
-        }
-    })
+    if (found) {
+        let value = yield client.getAsync(queryKey);
+        return JSON.parse(value);
+    } else {
+        let apiResponse = yield factual.getAsync('/t/places-us',
+            {q: searchTerm.trim(), limit: 5, sort: 'placerank:desc'})
+
+        yield client.setAsync(queryKey, JSON.stringify(apiResponse[0].data));
+        return apiResponse[0].data;
+    }
 }
 
-export function getPlaceInfo(id) {
-    return factual.getAsync(`/t/places-us/${id}`)
-        .then((res) => res[0].data)
-        .catch((error) => console.log(error))
+//still untested
+export function *getPlaceInfo(id) {
+    let queryKey = `/t/places-us query:${searchTerm.trim()}`;
+    let found = yield client.existsAsync(queryKey);
+
+    if (found) {
+        let value = yield client.getAsync(queryKey);
+        return JSON.parse(value);
+    } else {
+        let apiResponse = yield factual.getAsync(`/t/places-us/${id}`)
+
+        yield client.setAsync(queryKey, JSON.stringify(apiResponse[0].data));
+        return apiResponse[0].data;
+    }
 }

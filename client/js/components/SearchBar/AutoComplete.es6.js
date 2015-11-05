@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import Radium from 'radium'
 
 require('velocity-animate');
@@ -43,32 +44,32 @@ var Animations = {
     }),
 };
 
+var enterAnimation = {
+    animation: Animations.In,
+    stagger: 150,
+    duration: 150,
+    backwards: true,
+    display: 'block',
+    style: {
+        // Since we're staggering, we want to keep the display at "none" until Velocity runs
+        // the display attribute at the start of the animation.
+        display: 'none',
+    },
+};
+
+var leaveAnimation = {
+    animation: Animations.Out,
+    stagger: 100,
+    duration: 100,
+    backwards: true,
+};
+
 @Radium
 export default class AutoComplete extends Component {
     render() {
         const { suggestions } = this.props;
 
-        var enterAnimation = {
-            animation: Animations.In,
-            stagger: 200,
-            duration: 200,
-            backwards: true,
-            display: 'block',
-            style: {
-                // Since we're staggering, we want to keep the display at "none" until Velocity runs
-                // the display attribute at the start of the animation.
-                display: 'none',
-            },
-        };
-
-        var leaveAnimation = {
-            animation: Animations.Out,
-            stagger: 100,
-            duration: 100,
-            backwards: true,
-        };
-
-        let SearchingText = suggestions.length ? null :
+        let SearchingText = suggestions.size ? null :
             <li key={0} style={STYLES.searching}>{'Searching...'}</li>
 
         return (
@@ -89,7 +90,7 @@ export default class AutoComplete extends Component {
         return suggestions.map((suggestion) => {
             return (
                 <AutoCompleteRow
-                    key={suggestion.factual_id}
+                    key={suggestion.get('factual_id')}
                     handleClick={handleClick}
                     suggestion={suggestion}
                 />
@@ -116,10 +117,19 @@ const STYLES = {
         fontSize: '1.5rem',
         padding: '.75rem'
     }
-}
+};
 
 AutoComplete.propTypes = {
-    suggestions: PropTypes.arrayOf(PropTypes.object).isRequired
+    suggestions: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+        address    : PropTypes.string,
+        factual_id : PropTypes.string,
+        latitude   : PropTypes.number,
+        locality   : PropTypes.string,
+        longitude  : PropTypes.number,
+        name       : PropTypes.string,
+        postcode   : PropTypes.string,
+        region     : PropTypes.string
+    })).isRequired
 };
 
 AutoComplete.defaultProps = {};

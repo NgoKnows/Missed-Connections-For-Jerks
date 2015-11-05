@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import Radium from 'radium'
 
 import AutoComplete from 'components/SearchBar/AutoComplete'
@@ -13,22 +14,23 @@ export default class SearchBar extends Component {
 
     render() {
         const { actions, suggestions, searchTerm } = this.props;
-        let { focus } = this.state;
+        const { focus } = this.state;
+
 
         return (
             <div style={STYLES.container}>
                 <div style={STYLES.wrapper}>
                     <SearchImage />
                     <SearchInput
-                        handleFocus={() => this.setState({focus: true})}
                         handleBlur={() => this.setState({focus: true})}
-                        handleChange={(event) => actions.fetchSuggestions(event.target.value)}
+                        handleChange={event => actions.fetchSuggestions(event.target.value)}
+                        handleFocus={() => this.setState({focus: true})}
                         placeholderText="Where was this asshole?"
                         searchTerm={searchTerm}
                     />
-                    {focus ? <AutoComplete handleClick={(lat, long) => actions.goToPlace(lat, long)}
-                                           suggestions={suggestions}
-                    /> : null}
+                    {focus ?
+                        <AutoComplete handleClick={(place) => actions.goToPlace(place)}
+                                      suggestions={suggestions}/> : null}
                 </div>
             </div>
         );
@@ -36,13 +38,22 @@ export default class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-    suggestions: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string,
-        address: PropTypes.string,
+    searchTerm: PropTypes.string,
+    suggestions: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+        address    : PropTypes.string,
+        factual_id : PropTypes.string,
+        latitude   : PropTypes.number,
+        locality   : PropTypes.string,
+        longitude  : PropTypes.number,
+        name       : PropTypes.string,
+        postcode   : PropTypes.string,
+        region     : PropTypes.string
     })).isRequired
 };
 
-SearchBar.defaultProps = {};
+SearchBar.defaultProps = {
+    searchTerm: ''
+};
 
 const STYLES = {
     container: {

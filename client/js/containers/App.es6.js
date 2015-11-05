@@ -1,22 +1,27 @@
 import React, { Component, PropTypes } from 'react'
+import Immutable from 'immutable'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as actions from 'flux/actions/actions'
 import SearchBar from 'components/SearchBar/SearchBar'
 import Map from 'components/Map/MyMap'
+import EventFeed from 'components/EventFeed/EventFeed'
 
-@connect(mapStateToProps, mapDispatchToProps)
-export default class App extends Component {
+class App extends Component {
+    componentDidMount() {
+        this.props.actions.fetchEvents();
+    }
+
     render() {
         const { actions, ...other } = this.props;
 
-        console.log(other);
-
         return (
             <div style={STYLES}>
-                <SearchBar {...other} actions={actions}/>
-                <Map {...other}/>
+                <SearchBar {...other} actions={actions} />
+                <EventFeed {...other} actions={actions} />
+                <Map {...other} actions={actions} />
             </div>
         )
     }
@@ -24,24 +29,48 @@ export default class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        center : state.get('center').toJS(),
-        events : state.get('events').toJS(),
-        suggestions : state.get('suggestions').toJS(),
+        center : state.get('center'),
+        events : state.get('events'),
         searchTerm: state.get('searchTerm'),
+        suggestions : state.get('suggestions'),
         zoom: state.get('zoom')
     };
-}
+};
 
 function mapDispatchToProps(dispatch) {
     return {
         actions : bindActionCreators(actions, dispatch)
-    }
-}
+    };
+};
 
 App.propTypes = {
-    searchSuggestions : PropTypes.arrayOf(PropTypes.object),
-    searchTerm: PropTypes.string
+    center: ImmutablePropTypes.listOf(PropTypes.number).isRequired,
+    events: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+        address    : PropTypes.string,
+        content    : PropTypes.string,
+        factual_id : PropTypes.string,
+        id         : PropTypes.string,
+        latitude   : PropTypes.number,
+        locality   : PropTypes.string,
+        longitude  : PropTypes.number,
+        place_name : PropTypes.string,
+        title      : PropTypes.string,
+        user       : PropTypes.string
+    })).isRequired,
+    suggestions: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+        address    : PropTypes.string,
+        factual_id : PropTypes.string,
+        latitude   : PropTypes.number,
+        locality   : PropTypes.string,
+        longitude  : PropTypes.number,
+        name       : PropTypes.string,
+        postcode   : PropTypes.string,
+        region     : PropTypes.string
+    })).isRequired,
+    searchTerm: PropTypes.string.isRequired,
+    zoom: PropTypes.number.isRequired
 };
 
-const STYLES = {
-};
+const STYLES = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

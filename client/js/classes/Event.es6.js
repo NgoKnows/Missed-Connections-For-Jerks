@@ -1,19 +1,25 @@
 import Immutable from 'immutable'
 
 let EventRecord = Immutable.Record({
-    id: 0,
-    title: '',
-    content: '',
     address: '',
-    place_name: '',
-    latitude: 0,
-    longitude: 0,
+    content: '',
     factual_id: '',
+    id: -1,
+    latitude: -1,
+    locality: '',
+    longitude: -1,
+    place_name: '',
+    title: '',
     user: ''
 });
 
 export default class Event extends EventRecord {
     constructor(event) {
         super(event);
+    }
+
+    toJS() {
+        const { id, ...other} = super.toJS();
+        return other;
     }
 }

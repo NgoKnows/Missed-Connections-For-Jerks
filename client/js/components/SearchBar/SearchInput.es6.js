@@ -9,9 +9,9 @@ export default class SearchInput extends Component {
 
         return (
             <input
-                onFocus={handleFocus}
                 onBlur={handleBlur}
                 onChange={handleChange}
+                onFocus={handleFocus}
                 placeholder={placeholderText}
                 style={STYLES}
                 type="search"

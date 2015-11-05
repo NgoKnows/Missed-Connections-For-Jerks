@@ -8,7 +8,7 @@ const SearchImage = (props) => {
 };
 
 const STYLES = {
-    color: 'rgba(236, 240, 241)',
+    //color: 'rgba(236, 240, 241, 1)',
     fontSize: '1.5rem',
     left: '.5rem',
     position: 'absolute',

@@ -23,7 +23,7 @@ export default class Root extends Component {
                 <Provider store={store}>
                     <App />
                 </Provider>
-                <DebugPanel top right bottom>
+                <DebugPanel top left bottom>
                     <DevTools store={store} monitor={LogMonitor} />
                 </DebugPanel>
             </div>

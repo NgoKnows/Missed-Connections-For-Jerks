@@ -28,8 +28,8 @@
 (function () {
 
     // Retain the value of the original onAdd and onRemove functions
-    var originalOnAdd = L.Marker.prototype.onAdd;
-    var originalOnRemove = L.Marker.prototype.onRemove;
+    let originalOnAdd = L.Marker.prototype.onAdd;
+    let originalOnRemove = L.Marker.prototype.onRemove;
 
     // Add bounceonAdd options
     L.Marker.mergeOptions({
@@ -51,16 +51,16 @@
         },
 
         _motionStep: function (opts) {
-            var self = this;
+            let self = this;
 
-            var start = new Date();
+            let start = new Date();
             self._intervalId = setInterval(function () {
-                var timePassed = new Date() - start;
-                var progress = timePassed / opts.duration;
+                let timePassed = new Date() - start;
+                let progress = timePassed / opts.duration;
                 if (progress > 1) {
                     progress = 1;
                 }
-                var delta = opts.delta(progress);
+                let delta = opts.delta(progress);
                 opts.step(delta);
                 if (progress === 1) {
                     opts.end();
@@ -70,11 +70,11 @@
         },
 
         _bounceMotion: function (delta, duration, callback) {
-            var original = L.latLng(this._origLatlng),
+            let original = L.latLng(this._origLatlng),
                 start_y = this._dropPoint.y,
                 start_x = this._dropPoint.x,
                 distance = this._point.y - start_y;
-            var self = this;
+            let self = this;
 
             this._motionStep({
                 delay: 10,
@@ -92,7 +92,7 @@
                 },
                 end: function () {
                     self.setLatLng(original);
-                    if (typeof callback === "function") callback();
+                    if (typeof callback === 'function') callback();
                 }
             });
         },
@@ -118,14 +118,14 @@
         },
 
         _bounce: function (options, endCallback) {
-            if (typeof options === "function") {
+            if (typeof options === 'function') {
                 endCallback = options;
                 options = null;
             }
             options = options || {duration: 1000, height: -1};
 
             //backward compatibility
-            if (typeof options === "number") {
+            if (typeof options === 'number') {
                 options.duration = arguments[0];
                 options.height = arguments[1];
             }
@@ -141,7 +141,7 @@
         _getDropPoint: function (height) {
             // Get current coordidates in pixel
             this._point = this._toPoint(this._origLatlng);
-            var top_y;
+            let top_y;
             if (height === undefined || height < 0) {
                 top_y = this._toPoint(this._map.getBounds()._northEast).y;
             } else {

@@ -8,7 +8,16 @@ let testState = Immutable.Map({
     zoom: 12,
     suggestions : Immutable.List(),
     searchTerm : '',
-    events: Immutable.List([{latitude: 47.608705, longitude: -122.34037, name: 'Pike Place'}])
+    events: Immutable.List([
+        new Event({
+            latitude: 47.608705,
+            longitude: -122.34037,
+            place_name: 'Pike Place',
+            id: 'abadf',
+            title: 'This bitch...',
+            state: 'Washington'
+        })]
+    )
 });
 
 //let initialState = Immutable.Map({
@@ -34,7 +43,7 @@ export default function app(state = testState, action) {
             return state.set('suggestions', Immutable.List(action.suggestions));
 
         case SET_EVENTS:
-            return state.set('events', action.events);
+            return state.set('events', Immutable.List(action.events));
 
         case SET_ZOOM:
             return state.set('zoom', action.zoom);

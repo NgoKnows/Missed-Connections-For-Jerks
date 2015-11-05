@@ -8,16 +8,12 @@ require('../../bouncemaker.es6.js')
 
 
 export default class MyMap extends Component {
-    //constructor(props) {
-    //    super(props)
-    //}
-
     render() {
         const { center, zoom, events } = this.props;
 
         return (
             <Map id="map"
-                 center={center}
+                 center={center.toJS()}
                  zoom={zoom}>
                 <TileLayer
                     url='http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}'
@@ -38,7 +34,7 @@ export default class MyMap extends Component {
                 <Marker position={[event.latitude, event.longitude]}
                         bounceOnAdd={true}
                         bounceOnAddOptions= {{duration: 500, height: 100}}
-                        bounceOnAddCallback={() => console.log("done")}
+                        bounceOnAddCallback=""
                         key={index}>
                     <Popup>
                         <span>A pretty CSS3 popup.<br/>Easily customizable.</span>

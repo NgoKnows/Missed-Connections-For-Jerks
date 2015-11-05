@@ -2,6 +2,9 @@ import { ADD_EVENT, SET_CENTER, SET_SEARCH_TERM, SET_SUGGESTIONS, SET_EVENTS, SE
 import Immutable from 'immutable'
 import request from 'superagent-bluebird-promise'
 
+import Event from 'classes/Event'
+import Suggestion from 'classes/Suggestion'
+
 export function addEvent(event) {
     return {
         type: ADD_EVENT,
@@ -46,11 +49,46 @@ export function setZoom(zoom) {
     }
 }
 
-export function goToPlace(latitude, longitude){
+export function goToPlace(place){
     return (dispatch, getState) => {
-        //dispatch(setCenter(latitude, longitude));
-        //dispatch(setZoom(18));
-        dispatch(addEvent({latitude, longitude}))
+        const { latitude, longitude, name, factual_id, region } = place;
+        dispatch(setCenter(latitude, longitude));
+        dispatch(setZoom(17));
+
+        let event = {
+            title: 'This bitch really...',
+            content: 'Yeah, I was at Pike Place and this guy was being a total dick',
+            address: '12322 SE St',
+            place_name: 'Pike Place',
+            locality: '',
+            latitude: 47.608705,
+            longitude: -122.34037,
+            factual_id: '',
+            user: 'MyUsername'
+        };
+
+        request
+            .post('/api/events')
+            .send(new Event(event).toJS())
+            .then((res) => console.log(res))
+        //dispatch(addEvent({id: factual_id, place_name: name, title: 'New event!', latitude, longitude, state: region}))
+    }
+}
+
+export function addEvent(event) {
+    return (dispatch, getState) => {
+        request
+            .post('/api/events')
+            .send(new Event(event).toJS())
+            .then((res) => console.log(res))
+    }
+}
+
+export function fetchEvents() {
+    return (dispatch, getState) => {
+        request
+            .get('/api/events')
+            .then((res) => dispatch(setEvents(res.body.events.map((event) => new Event(event)))))
     }
 }
 
@@ -61,7 +99,7 @@ export function fetchSuggestions(searchTerm) {
         setTimeout(() => {
             let currentSearchTerm = getState().get('searchTerm');
 
-            if  (searchTerm.length < 1) {
+            if (searchTerm.length < 1) {
                 dispatch(setSuggestions([]));
             }
             //only make api call if still searching for same term
@@ -69,8 +107,8 @@ export function fetchSuggestions(searchTerm) {
                 console.log('make api call')
                 request
                     .get(`/api/suggestions/${currentSearchTerm}`)
-                    .send(searchTerm)
-                    .then((res) => dispatch(setSuggestions(res.body)))
+                    .then((res) => dispatch(setSuggestions(
+                        Immutable.List(res.body.map((suggestion) => new Suggestion(suggestion))))))
             }
         }, 500)
     }

@@ -33,6 +33,7 @@
     "radium": "^0.14.3",
     "react": "0.14.0",
     "react-dom": "0.14.0",
+    "react-immutable-proptypes": "^1.5.0",
     "react-leaflet": "^0.8.1",
     "react-redux": "3.1.0",
     "redis": "^2.3.0",
@@ -61,7 +62,7 @@
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.1.1",
-    "redux-devtools": "2.1.5",
+    "redux-devtools": "^2.1.5",
     "webpack": "^1.9.11"
   }
 }

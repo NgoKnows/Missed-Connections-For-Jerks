@@ -1,8 +1,7 @@
-import * as eventService from './service/events'
 import * as factualService from './service/factual'
 
 export function *getSuggestions() {
-    let searchTerm = this.params.searchterm;
+    let searchTerm = this.params.searchTerm;
     let suggestions = yield factualService.getSuggestions(searchTerm);
 
     this.status = 200;
