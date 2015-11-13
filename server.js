@@ -26,6 +26,19 @@ import serve from 'koa-static'
 app.use(serve(path.resolve('client')))
 
 
+// Error Handling
+// --------------------------------------------------
+app.use(function *(next) {
+    try {
+        yield next;
+    } catch (err) {
+        this.status = err.status || 500;
+        this.body = err.message;
+        this.app.emit('error', err, this);
+    }
+});
+
+
 // Routing
 // --------------------------------------------------
 import * as factualAPI from './server/api/factualAPI'
@@ -39,7 +52,7 @@ let myBodyParser = bodyParser();
 
 myRouter
     .get('/api/suggestions/:searchTerm', factualAPI.getSuggestions)
-    .get('/api/business/:placeName', factualAPI.getPlaceInfo)
+    .get('/api/business/:id', factualAPI.getPlaceInfo)
 
 myRouter
     .get('/api/events', eventAPI.getEvents)

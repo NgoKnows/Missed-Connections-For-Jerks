@@ -7,28 +7,20 @@ import SearchImage from 'components/SearchBar/SearchImage'
 import SearchInput from 'components/SearchBar/SearchInput'
 
 export default class SearchBar extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {focus: true};
-    }
-
     render() {
-        const { actions, suggestions, searchTerm } = this.props;
-        const { focus } = this.state;
-
+        const { actions, searchTerm, suggestions, ui } = this.props;
 
         return (
             <div style={STYLES.container}>
-                <div style={STYLES.wrapper}>
+                <div style={STYLES.wrapper}
+                     onFocus={() => actions.showAutocomplete()}>
                     <SearchImage />
                     <SearchInput
-                        handleBlur={() => this.setState({focus: true})}
                         handleChange={(event) => actions.fetchSuggestions(event.target.value)}
-                        handleFocus={() => this.setState({focus: true})}
                         placeholderText="Where was this asshole?"
                         searchTerm={searchTerm}
                     />
-                    {focus ?
+                    {ui.get('showAutocomplete') ?
                         <AutoComplete handleClick={actions.goToPlace}
                                       suggestions={suggestions}
                         /> : null}
@@ -49,7 +41,8 @@ SearchBar.propTypes = {
         name       : PropTypes.string,
         postcode   : PropTypes.string,
         region     : PropTypes.string
-    })).isRequired
+    })).isRequired,
+    ui : ImmutablePropTypes.map
 };
 
 const STYLES = {
@@ -63,6 +56,7 @@ const STYLES = {
     },
 
     wrapper : {
+        height   : '100%',
         position : 'relative',
         width    : '30rem'
     }

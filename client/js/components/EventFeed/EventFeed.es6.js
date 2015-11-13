@@ -6,10 +6,15 @@ import Feed from './Feed.es6'
 
 export default class EventFeed extends Component {
     render() {
-        const { events } = this.props;
+        const { actions, events, ui } = this.props;
+
         return (
             <div style={STYLES}>
-                <Feed events={events}/>
+                <Feed events={events}
+                      page={ui.get('feedPage')}
+                      handleBackArrowClick={() => actions.pageBackward()}
+                      handleForwardArrowClick={() => actions.pageForward()}
+                      handleEventClick={(place, id) => actions.goToPlace(place, id)}/>
             </div>
         );
     }
@@ -34,5 +39,6 @@ EventFeed.propTypes = {
         place_name : PropTypes.string,
         title      : PropTypes.string,
         user       : PropTypes.string
-    })).isRequired
+    })).isRequired,
+    ui : ImmutablePropTypes.map
 };

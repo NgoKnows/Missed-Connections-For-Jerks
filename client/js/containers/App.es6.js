@@ -8,6 +8,7 @@ import * as actions from 'flux/actions/actions'
 import SearchBar from 'components/SearchBar/SearchBar'
 import Map from 'components/Map/MyMap'
 import EventFeed from 'components/EventFeed/EventFeed'
+import BottomNavBar from 'components/Navigation/BottomNavBar/BottomNavBar'
 
 class App extends Component {
     componentDidMount() {
@@ -22,6 +23,7 @@ class App extends Component {
                 <SearchBar {...other} actions={actions} />
                 <EventFeed {...other} actions={actions} />
                 <Map {...other} actions={actions} />
+                <BottomNavBar actions={actions}/>
             </div>
         )
     }
@@ -29,11 +31,13 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        center      : state.get('center'),
+        center      : state.getIn(['map', 'center']),
         events      : state.get('events'),
+        loading     : state.get('loading'),
         searchTerm  : state.get('searchTerm'),
         suggestions : state.get('suggestions'),
-        zoom        : state.get('zoom')
+        ui          : state.get('ui'),
+        zoom        : state.getIn(['map', 'zoom'])
     };
 };
 
@@ -57,6 +61,7 @@ App.propTypes = {
         title      : PropTypes.string,
         user       : PropTypes.string
     })).isRequired,
+    loading     : PropTypes.bool,
     suggestions : ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
         address    : PropTypes.string,
         factual_id : PropTypes.string,
@@ -68,6 +73,7 @@ App.propTypes = {
         region     : PropTypes.string
     })).isRequired,
     searchTerm : PropTypes.string.isRequired,
+    ui         : ImmutablePropTypes.map,
     zoom       : PropTypes.number.isRequired
 };
 

@@ -27,11 +27,12 @@ export function *getSuggestions(searchTerm, locality = '') {
         apiResponse = apiResponse[0].data
 
         yield client.setAsync(queryKey, JSON.stringify(apiResponse));
+        yield client.expireatAsync(queryKey, parseInt((+new Date)/1000) + 86400);
+
         return apiResponse;
     }
 }
 
-//still untested
 export function *getPlaceInfo(id) {
     let queryKey = `api:factual:places-us#${id}`;
     let found = yield client.existsAsync(queryKey);
@@ -43,9 +44,11 @@ export function *getPlaceInfo(id) {
         let apiResponse = yield factual.getAsync(`/t/places-us/${id}`, {select:
             'address, factual_id, latitude, locality, longitude, name, postcode, region'
         })
-        apiResponse = apiResponse[0].data
+        apiResponse = apiResponse[0].data[0]
 
         yield client.setAsync(queryKey, JSON.stringify(apiResponse));
+        yield client.expireatAsync(queryKey, parseInt((+new Date)/1000) + 86400);
+
         return apiResponse;
     }
 }

@@ -5,14 +5,20 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import '../../bouncemaker.es6.js'
 
 import { MAPBOX_KEY } from '../../secret'
+import EventPopUp from './PopUp/EventPopUp.es6'
 
 export default class MyMap extends Component {
     render() {
-        const { center, zoom, events } = this.props;
+        const { actions, center, zoom } = this.props;
 
         return (
             <Map id="map"
                  center={center.toJS()}
+                 onClick={() => actions.hideAutocomplete()}
+                 onMoveEnd={this._updateCenter.bind(this, actions)}
+                 onZoomEnd={(event) => actions.setZoom(event.target._zoom)}
+                 onPopupClose={(blah) => actions.openPopup('')}
+                 ref={(ref) => this.map = ref}
                  zoom={zoom}>
                 <TileLayer
                     url='http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}'
@@ -20,22 +26,50 @@ export default class MyMap extends Component {
                     id='ngoknows.ddd6c31a'
                     detectRetina='true'
                 />
-                {this._getRows()}
+                {this._getEventMarkers()}
             </Map>
         );
     }
 
-    _getRows() {
-        const { events } = this.props;
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.ui.get('openPopup') && this.props.ui.get('openPopup') !== nextProps.ui.get('openPopup')) {
+            this.popup.leafletElement.openOn(this.map.getLeafletElement());
+        }
+    }
+
+
+    _updateCenter(actions) {
+        try {
+            let center = this.map.getLeafletElement().getCenter();
+            actions.setCenter(center.lat, center.lng)
+        } catch(err) {
+            //error will freeze ui, but doesn't actually matter(?)
+        }
+    }
+
+    _openPopup() {
+        console.log()
+    }
+
+    _getEventMarkers() {
+        const { events, ui } = this.props;
 
         return events.map((event, index) => {
             return (
                 <Marker position={[event.latitude, event.longitude]}
                         bounceOnAdd={true}
+                        openPopup={true}
                         bounceOnAddOptions= {{duration: 500, height: 100}}
                         key={event.id}>
-                    <Popup>
-                        <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+                    <Popup
+                        ref={(ref) => {
+                        if(ui.get('openPopup') === event.id) {
+                            this.popup = ref;
+                        }else{
+                        //console.log(event.id)
+                        }
+                    }}>
+                        <EventPopUp event={event} />
                     </Popup>
                 </Marker>
             )

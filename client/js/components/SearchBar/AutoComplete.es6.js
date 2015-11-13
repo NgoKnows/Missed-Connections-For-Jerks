@@ -74,9 +74,12 @@ export default class AutoComplete extends Component {
         return (
             <div style={STYLES.container}>
                 <ul style={STYLES.list}>
-                    <VelocityTransitionGroup component="div" enter={enterAnimation} leave={leaveAnimation}>
-                        {SearchingText}
-                        {this._getRows()}
+                    <VelocityTransitionGroup
+                        component="div"
+                        enter={enterAnimation}
+                        leave={leaveAnimation}>
+                            {SearchingText}
+                            {this._getRows()}
                     </VelocityTransitionGroup>
                 </ul>
             </div>
@@ -84,7 +87,7 @@ export default class AutoComplete extends Component {
     }
 
     _getRows() {
-        const { suggestions, handleClick } = this.props;
+        const { handleClick, suggestions } = this.props;
 
         return suggestions.map((suggestion) => {
             return (
@@ -99,6 +102,9 @@ export default class AutoComplete extends Component {
 }
 
 const STYLES = {
+    container: {
+        width: '100%'
+    },
     list: {
         backgroundColor: 'rgba(236, 240, 241, 0.75)',
         borderRadius: '0 0 5px 5px',
@@ -107,9 +113,6 @@ const STYLES = {
         listStyleType: 'none',
         margin: 0,
         padding: 0,
-        width: '100%'
-    },
-    container: {
         width: '100%'
     },
     searching: {

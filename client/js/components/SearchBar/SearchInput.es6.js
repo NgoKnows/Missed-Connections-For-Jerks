@@ -5,7 +5,8 @@ import { noop } from 'lodash'
 @Radium
 export default class SearchInput extends Component {
     render() {
-        const { placeholderText, handleFocus, handleBlur, handleChange, searchTerm } = this.props;
+        const { handleFocus, handleBlur, handleChange,
+            placeholderText, searchTerm } = this.props;
 
         return (
             <input

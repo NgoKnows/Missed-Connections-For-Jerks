@@ -47,7 +47,7 @@ export function addEvent(event) {
         .then((conn) => {
             return r
                 .table('events')
-                .insert(event)
+                .insert({...event, date: r.now()})
                 .run(conn)
         })
 }

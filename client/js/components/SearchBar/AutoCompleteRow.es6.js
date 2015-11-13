@@ -5,7 +5,7 @@ import Radium from 'radium'
 @Radium
 export default class AutoCompleteRow extends Component {
     render() {
-        const { suggestion, handleClick } = this.props;
+        const { handleClick, suggestion } = this.props;
         const { name, address, locality } = suggestion;
 
         return (
@@ -31,6 +31,10 @@ AutoCompleteRow.propTypes = {
 };
 
 const STYLES = {
+    address: {
+        color: 'grey'
+    },
+
     result: {
         overflow: 'hidden',
         textOverflow: 'ellipsis'
@@ -43,9 +47,5 @@ const STYLES = {
             cursor: 'pointer',
             opacity: 0.55
         }
-    },
-
-    address: {
-        color: 'grey'
-    },
+    }
 }
