@@ -93,7 +93,7 @@ export default class AutoComplete extends Component {
             return (
                 <AutoCompleteRow
                     key={suggestion.get('factual_id')}
-                    handleClick={handleClick.bind(this, suggestion)}
+                    handleClick={handleClick.bind(this, suggestion, '')}
                     suggestion={suggestion}
                 />
             )

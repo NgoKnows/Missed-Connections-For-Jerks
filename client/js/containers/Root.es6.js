@@ -7,7 +7,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 
 //ROUTING
 import createBrowserHistory from 'history/lib/createBrowserHistory'
-import { Router, Route } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 
 //DEV TOOLS
@@ -38,12 +38,13 @@ export default class Root extends Component {
                 <Provider store={store}>
                     <Router history={history}>
                         <Route path="/" component={App}>
+                            <IndexRoute component={Map}/>
+                            <Route path="/list" component={List} />
+                            <Route path="/submit" component={Form} />
                         </Route>
                     </Router>
                 </Provider>
-                <DebugPanel top left bottom>
-                    <DevTools store={store} monitor={LogMonitor} />
-                </DebugPanel>
+
             </div>
         )
     }

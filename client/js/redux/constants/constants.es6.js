@@ -25,3 +25,4 @@ export const PAGE_FORWARD = 'PAGE_FORWARD';
 export const PAGE_BACKWARD = 'PAGE_BACKWARD';
 
 export const OPEN_POPUP = 'OPEN_POPUP';
+export const CLOSE_POPUP = 'CLOSE_POPUP';

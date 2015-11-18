@@ -8,18 +8,27 @@ import { MAPBOX_KEY } from '../../secret'
 import EventPopUp from './PopUp/EventPopUp.es6'
 
 export default class MyMap extends Component {
+
+    componentDidUpdate(prevProps) {
+        if (this.props.ui.get('openPopup') && prevProps.ui.get('openPopup') !== this.props.ui.get('openPopup')) {
+            this.popup.leafletElement.openOn(this.map.getLeafletElement());
+        }
+    }
+
     render() {
         const { actions, center, zoom } = this.props;
 
         return (
-            <Map id="map"
-                 center={center.toJS()}
-                 onClick={() => actions.hideAutocomplete()}
-                 onMoveEnd={this._updateCenter.bind(this, actions)}
-                 onZoomEnd={(event) => actions.setZoom(event.target._zoom)}
-                 onPopupClose={(blah) => actions.openPopup('')}
-                 ref={(ref) => this.map = ref}
-                 zoom={zoom}>
+            <Map
+                id="map"
+                center={center.toJS()}
+                onClick={() => actions.hideAutocomplete()}
+                onMoveEnd={this._updateCenter.bind(this, actions)}
+                onZoomEnd={(event) => actions.setZoom(event.target._zoom)}
+                onPopupClose={() => setTimeout(() => actions.openPopup(''), 1)}
+                ref={(ref) => this.map = ref}
+                zoom={zoom}
+            >
                 <TileLayer
                     url='http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}'
                     accessToken={MAPBOX_KEY}
@@ -31,13 +40,6 @@ export default class MyMap extends Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.ui.get('openPopup') && this.props.ui.get('openPopup') !== nextProps.ui.get('openPopup')) {
-            this.popup.leafletElement.openOn(this.map.getLeafletElement());
-        }
-    }
-
-
     _updateCenter(actions) {
         try {
             let center = this.map.getLeafletElement().getCenter();
@@ -47,28 +49,22 @@ export default class MyMap extends Component {
         }
     }
 
-    _openPopup() {
-        console.log()
-    }
-
     _getEventMarkers() {
         const { events, ui } = this.props;
 
+        const currentOpenPopup = ui.get('openPopup');
+
         return events.map((event, index) => {
             return (
-                <Marker position={[event.latitude, event.longitude]}
-                        bounceOnAdd={true}
-                        openPopup={true}
-                        bounceOnAddOptions= {{duration: 500, height: 100}}
-                        key={event.id}>
+                <Marker
+                    position={[event.latitude, event.longitude]}
+                    bounceOnAdd={true}
+                    bounceOnAddOptions= {{duration: 500, height: 100}}
+                    key={event.id}
+                >
                     <Popup
-                        ref={(ref) => {
-                        if(ui.get('openPopup') === event.id) {
-                            this.popup = ref;
-                        }else{
-                        //console.log(event.id)
-                        }
-                    }}>
+                        ref={(ref) => currentOpenPopup === event.id ? this.popup = ref : null}
+                    >
                         <EventPopUp event={event} />
                     </Popup>
                 </Marker>

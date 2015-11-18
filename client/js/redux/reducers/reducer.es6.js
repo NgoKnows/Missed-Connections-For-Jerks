@@ -1,6 +1,6 @@
 import { ADD_EVENT, SET_SEARCH_TERM, SET_CENTER, SET_SUGGESTIONS,
     SET_EVENTS, SET_ZOOM, START_LOADING, FINISH_LOADING, SHOW_AUTOCOMPLETE, HIDE_AUTOCOMPLETE,
-    PAGE_FORWARD, PAGE_BACKWARD, OPEN_POPUP } from '../constants/constants'
+    PAGE_FORWARD, PAGE_BACKWARD, OPEN_POPUP, CLOSE_POPUP } from '../constants/constants'
 import { combineReducers } from 'redux-immutablejs'
 import { routeReducer } from 'redux-simple-router'
 
@@ -135,14 +135,18 @@ function feedPage(state = 1, action) {
             return state - 1;
 
         default:
-            return state
+            return state;
     }
 }
 
 function openPopup(state = '', action) {
     switch (action.type) {
         case OPEN_POPUP:
-            return action.id
+            return action.id;
+
+        case CLOSE_POPUP:
+            return '';
+
         default:
             return state;
     }

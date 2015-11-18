@@ -1,6 +1,6 @@
 import { ADD_EVENT, SET_CENTER, SET_SEARCH_TERM, SET_SUGGESTIONS, SET_EVENTS,
     SET_ZOOM, START_LOADING, FINISH_LOADING, SHOW_AUTOCOMPLETE, HIDE_AUTOCOMPLETE,
-    PAGE_FORWARD, PAGE_BACKWARD, OPEN_POPUP } from '../constants/constants.es6'
+    PAGE_FORWARD, PAGE_BACKWARD, OPEN_POPUP, CLOSE_POPUP } from '../constants/constants.es6'
 
 import { updatePath as updateRouterPath } from 'redux-simple-router'
 
@@ -161,6 +161,12 @@ export function openPopup(id) {
     return {
         type: OPEN_POPUP,
         id
+    }
+}
+
+export function closePopup() {
+    return {
+        type: CLOSE_POPUP
     }
 }
 
