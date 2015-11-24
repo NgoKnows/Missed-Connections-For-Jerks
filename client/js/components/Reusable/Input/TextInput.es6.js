@@ -3,10 +3,10 @@ import Radium from 'radium'
 import { noop } from 'lodash'
 
 @Radium
-export default class Input extends Component {
+export default class TextInput extends Component {
     render() {
         const { disabled, handleChange, handleClick, name,
-            placeholder, readOnly, type, value} = this.props;
+            placeholder, readOnly, type, value, ...other} = this.props;
 
         return (
             <input style={STYLES}
@@ -18,6 +18,7 @@ export default class Input extends Component {
                    readOnly={readOnly}
                    type={type}
                    value={value}
+                {...other}
             />
         );
     }
@@ -25,7 +26,7 @@ export default class Input extends Component {
 
 const STYLES = {};
 
-Input.propTypes = {
+TextInput.propTypes = {
     disabled     : PropTypes.bool,
     handleChange : PropTypes.func,
     handleClick  : PropTypes.func,
@@ -36,7 +37,7 @@ Input.propTypes = {
     value        : PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
-Input.defaultProps = {
+TextInput.defaultProps = {
     disabled     : false,
     handleChange : noop,
     handleClick  : noop,

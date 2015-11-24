@@ -1,25 +1,23 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
+import Radium from 'radium'
+
 import ImmutablePropTypes from 'react-immutable-proptypes'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import * as actions from 'flux/actions/actions'
-import SearchBar from 'components/SearchBar/SearchBar'
-import MyMap from 'components/Map/MyMap'
-import EventFeed from 'components/EventFeed/EventFeed'
 
-class Map extends Component {
+import { reduxForm } from 'redux-form';
+export const fields = ['firstName', 'lastName', 'email', 'sex', 'favoriteColor', 'employed', 'notes'];
+
+import SubmitForm from 'components/Form/SubmitForm'
+
+export default class Form extends Component {
     render() {
-        const { actions, ...other } = this.props;
-
         return (
-            <div style={STYLES}>
-                <SearchBar {...other} actions={actions} />
-                <EventFeed {...other} actions={actions} />
-                <MyMap {...other} actions={actions} />
-            </div>
-        )
+            <SubmitForm />
+        );
     }
 }
 
@@ -31,7 +29,7 @@ function mapStateToProps(state) {
         searchTerm  : state.get('searchTerm'),
         suggestions : state.get('suggestions'),
         ui          : state.get('ui'),
-        zoom        : state.getIn(['map', 'zoom'])
+        zoom        : state.getIn(['map', 'zoom']),
     };
 };
 
@@ -41,7 +39,7 @@ function mapDispatchToProps(dispatch) {
     };
 };
 
-Map.propTypes = {
+Form.propTypes = {
     center : ImmutablePropTypes.listOf(PropTypes.number).isRequired,
     events : ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
         address    : PropTypes.string,
@@ -73,4 +71,4 @@ Map.propTypes = {
 
 const STYLES = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Map)
+export default connect(mapStateToProps, mapDispatchToProps)(Form)

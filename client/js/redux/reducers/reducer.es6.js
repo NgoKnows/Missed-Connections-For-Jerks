@@ -3,6 +3,7 @@ import { ADD_EVENT, SET_SEARCH_TERM, SET_CENTER, SET_SUGGESTIONS,
     PAGE_FORWARD, PAGE_BACKWARD, OPEN_POPUP, CLOSE_POPUP } from '../constants/constants'
 import { combineReducers } from 'redux-immutablejs'
 import { routeReducer } from 'redux-simple-router'
+import {reducer as formReducer} from 'redux-form'
 
 import Immutable from 'immutable'
 import Event from 'classes/Event'
@@ -159,7 +160,8 @@ const rootReducer = combineReducers({
     suggestions,
     loading,
     ui,
-    routing: routeReducer
+    routing: routeReducer,
+    form : formReducer
 });
 
 export default rootReducer;

@@ -21,7 +21,7 @@ export default class BottomNavBar extends Component {
                     <span>List</span>
                 </div>
                 <div style={STYLES.navButton}
-                     onClick={() => actions.updatePath('/submit')}
+                     onClick={() => actions.updatePath('/form')}
                      key={3}>
                     <i style={STYLES.icon} className="fa fa-user-times" />
                     <span>Submit an asshole!</span>

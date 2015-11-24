@@ -1,13 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
 import * as actions from 'flux/actions/actions'
-import SearchBar from 'components/SearchBar/SearchBar'
-import Map from 'components/Map/MyMap'
-import EventFeed from 'components/EventFeed/EventFeed'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import BottomNavBar from 'components/Navigation/BottomNavBar/BottomNavBar'
 
 class App extends Component {
@@ -20,9 +17,7 @@ class App extends Component {
 
         return (
             <div style={STYLES}>
-                <SearchBar {...other} actions={actions} />
-                <EventFeed {...other} actions={actions} />
-                <Map {...other} actions={actions} />
+                {this.props.children}
                 <BottomNavBar actions={actions}/>
             </div>
         )

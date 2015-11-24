@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react'
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { compose, createStore, applyMiddleware } from 'redux';
+import Reducer from 'flux/reducers/reducer'
 
 //ROUTING
 import createBrowserHistory from 'history/lib/createBrowserHistory'
@@ -14,12 +15,14 @@ import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 import { devTools, persistState } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
-import Reducer from 'flux/reducers/reducer'
+//Routing Components
 import App from './App'
+import Map from './Map'
+import List from './List'
+import Form from './Form'
+
 import Button from 'components/Reusable/Button/Button'
-import Input from 'components/Reusable/Input/Input'
-
-
+import Input from 'components/Reusable/Input/TextInput'
 
 const finalCreateStore = compose(
     applyMiddleware(thunk),
@@ -29,7 +32,7 @@ const store = finalCreateStore(Reducer);
 
 const history = createBrowserHistory();
 
-syncReduxAndRouter(history, store);
+syncReduxAndRouter(history, store, (state) => state.get('routing'));
 
 export default class Root extends Component {
     render() {
@@ -40,11 +43,10 @@ export default class Root extends Component {
                         <Route path="/" component={App}>
                             <IndexRoute component={Map}/>
                             <Route path="/list" component={List} />
-                            <Route path="/submit" component={Form} />
+                            <Route path="/form" component={Form} />
                         </Route>
                     </Router>
                 </Provider>
-
             </div>
         )
     }
